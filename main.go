@@ -1,7 +1,13 @@
 package main
 
-import "os"
+import (
+	"github.com/jpiechowka/go-file-server/internal/cmd"
+	"os"
+)
 
 func main() {
-	os.Exit(0)
+	err := cmd.Execute()
+	if err != nil {
+		os.Exit(1)
+	}
 }
