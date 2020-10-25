@@ -12,6 +12,8 @@ A simple web server written in Go that can be used to serve files and transfer t
 * Configurable Basic Auth
 
 ## Usage
+Basic usage with default options: ```go-file-server start```
+
 ```
 A file server built in Go using Fiber
 
