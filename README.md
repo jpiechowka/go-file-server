@@ -5,7 +5,7 @@ A simple web server written in Go that can be used to serve files and transfer t
 * Ability to configure serve directory
 * Automatically add security and cache headers to the responses
 * Built-in request logging
-* Built-in and configurable request rate limiter (TODO: configuration)
+* Built-in and configurable request rate limiter
 * Automated generation of self-signed TLS certs (TODO)
 * Ability to add custom TLS certs (TODO)
 * Configurable compression (TODO: configuration)
@@ -41,4 +41,5 @@ Flags:
   -b, --basic-auth string   Enables Basic Auth. Credentials should be provided as username:password
   -d, --dir string          Path to directory with files to serve (default "./files")
   -h, --help                help for start
+  -r, --rate-limit uint     Configure max requests per minute (default 60)
 ```

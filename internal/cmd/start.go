@@ -11,13 +11,14 @@ import (
 const (
 	defaultServerAddr         = "0.0.0.0:13337"
 	defaultServeDirectoryPath = "./files"
+	defaultRateLimitPerMinute = 60
 )
 
 var (
 	serverAddr           string
 	serveDirectoryPath   string
 	basicAuthCredentials string
-	//enableTls         bool
+	rateLimitPerMinute   uint
 
 	startCommand = &cobra.Command{
 		Use:   "start",
@@ -36,12 +37,14 @@ func init() {
 	startCommand.Flags().StringVarP(&serverAddr, "address", "a", defaultServerAddr, "Server address")
 	startCommand.Flags().StringVarP(&serveDirectoryPath, "dir", "d", defaultServeDirectoryPath, "Path to directory with files to serve")
 	startCommand.Flags().StringVarP(&basicAuthCredentials, "basic-auth", "b", "", "Enables Basic Auth. Credentials should be provided as username:password")
+	startCommand.Flags().UintVarP(&rateLimitPerMinute, "rate-limit", "r", defaultRateLimitPerMinute, "Configure max requests per minute")
 }
 
 func startCmd() error {
 	cfg := &config.ServerConfig{
 		Address:            serverAddr,
 		ServeDirectoryPath: serveDirectoryPath,
+		RateLimitPerMinute: rateLimitPerMinute,
 	}
 
 	if basicAuthCredentials != "" {

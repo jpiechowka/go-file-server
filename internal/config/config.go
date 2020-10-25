@@ -6,4 +6,5 @@ type ServerConfig struct {
 	EnableBasicAuth    bool
 	BasicAuthUser      string
 	BasicAuthPassword  string
+	RateLimitPerMinute uint
 }

@@ -38,7 +38,7 @@ func (s *FiberFileServer) setupRoutingAndMiddleware() {
 	}))
 
 	s.fiber.Use(limiter.New(limiter.Config{
-		Max:      60,
+		Max:      int(s.config.RateLimitPerMinute),
 		Duration: 1 * time.Minute,
 	}))
 
