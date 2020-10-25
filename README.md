@@ -37,9 +37,9 @@ Usage:
   go-file-server start [flags]
 
 Flags:
-  -a, --address string      Server address (default "0.0.0.0:13337")
-  -b, --basic-auth string   Enables Basic Auth. Credentials should be provided as username:password
-  -d, --dir string          Path to directory with files to serve (default "./files")
+  -a, --address string      server address (default "0.0.0.0:13337")
+  -b, --basic-auth string   enables Basic Auth. Credentials should be provided as username:password
+  -d, --dir string          path to directory with files to serve (default "./files")
   -h, --help                help for start
-  -r, --rate-limit uint     Configure max requests per minute (default 60)
+  -r, --rate-limit uint     configure max requests per minute (default 60)
 ```
