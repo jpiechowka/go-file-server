@@ -1,16 +1,19 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/jpiechowka/go-file-server/internal/config"
 	"github.com/jpiechowka/go-file-server/internal/server"
 	"github.com/spf13/cobra"
 )
 
-const serverDefaultAddr = "0.0.0.0:13337"
+const (
+	defaultServerAddr         = "0.0.0.0:13337"
+	defaultServeDirectoryPath = "./files"
+)
 
 var (
-	serverAddr string
+	serverAddr         string
+	serveDirectoryPath string
 	//enableTls         bool
 	//enableBasicAuth   bool
 	//basicAuthUser     string
@@ -30,12 +33,14 @@ var (
 )
 
 func init() {
-	rootCmd.LocalNonPersistentFlags().StringVarP(&serverAddr, "address", "a", serverDefaultAddr, fmt.Sprintf("Server address (default is %s)", serverDefaultAddr))
+	startCommand.Flags().StringVarP(&serverAddr, "address", "a", defaultServerAddr, "Server address")
+	startCommand.Flags().StringVarP(&serveDirectoryPath, "dir", "d", defaultServeDirectoryPath, "Path to directory with files to serve")
 }
 
 func startCmd() error {
 	cfg := &config.ServerConfig{
-		Address: serverAddr,
+		Address:            serverAddr,
+		ServeDirectoryPath: serveDirectoryPath,
 	}
 
 	srv := server.NewFiberFileServer(cfg)

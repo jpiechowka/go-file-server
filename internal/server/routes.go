@@ -29,7 +29,7 @@ func (s *FiberFileServer) setupRoutingAndMiddleware() {
 		Duration: 1 * time.Minute,
 	}))
 	s.fiber.Use(filesystem.New(filesystem.Config{
-		Root:   http.Dir("./files"), // TODO: provide serve directory path in config
+		Root:   http.Dir(s.config.ServeDirectoryPath),
 		Browse: true,
 	}))
 }
