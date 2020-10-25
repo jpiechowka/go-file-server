@@ -34,10 +34,10 @@ var (
 )
 
 func init() {
-	startCommand.Flags().StringVarP(&serverAddr, "address", "a", defaultServerAddr, "Server address")
-	startCommand.Flags().StringVarP(&serveDirectoryPath, "dir", "d", defaultServeDirectoryPath, "Path to directory with files to serve")
-	startCommand.Flags().StringVarP(&basicAuthCredentials, "basic-auth", "b", "", "Enables Basic Auth. Credentials should be provided as username:password")
-	startCommand.Flags().UintVarP(&rateLimitPerMinute, "rate-limit", "r", defaultRateLimitPerMinute, "Configure max requests per minute")
+	startCommand.Flags().StringVarP(&serverAddr, "address", "a", defaultServerAddr, "server address")
+	startCommand.Flags().StringVarP(&serveDirectoryPath, "dir", "d", defaultServeDirectoryPath, "path to directory with files to serve")
+	startCommand.Flags().StringVarP(&basicAuthCredentials, "basic-auth", "b", "", "enables Basic Auth. Credentials should be provided as username:password")
+	startCommand.Flags().UintVarP(&rateLimitPerMinute, "rate-limit", "r", defaultRateLimitPerMinute, "configure max requests per minute")
 }
 
 func startCmd() error {
