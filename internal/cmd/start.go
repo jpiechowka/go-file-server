@@ -12,6 +12,7 @@ const (
 	defaultServerAddr         = "0.0.0.0:13337"
 	defaultServeDirectoryPath = "./files"
 	defaultRateLimitPerMinute = 60
+	defaultCompressionLevel   = 2
 )
 
 var (
@@ -19,6 +20,7 @@ var (
 	serveDirectoryPath   string
 	basicAuthCredentials string
 	rateLimitPerMinute   uint
+	compressionLevel     int
 
 	startCommand = &cobra.Command{
 		Use:   "start",
@@ -38,6 +40,7 @@ func init() {
 	startCommand.Flags().StringVarP(&serveDirectoryPath, "dir", "d", defaultServeDirectoryPath, "path to directory with files to serve")
 	startCommand.Flags().StringVarP(&basicAuthCredentials, "basic-auth", "b", "", "enables Basic Auth. Credentials should be provided as username:password")
 	startCommand.Flags().UintVarP(&rateLimitPerMinute, "rate-limit", "r", defaultRateLimitPerMinute, "configure max requests per minute")
+	startCommand.Flags().IntVarP(&compressionLevel, "compression", "c", defaultCompressionLevel, "configure compression level. -1 to disable, 0 for default level, 1 for best speed, 2 for best compression")
 }
 
 func startCmd() error {
@@ -63,6 +66,11 @@ func startCmd() error {
 		cfg.BasicAuthUser = credentials[0]
 		cfg.BasicAuthPassword = credentials[1]
 	}
+
+	if compressionLevel < -1 || compressionLevel > 2 {
+		return errors.New("provided compression level is invalid. Valid values are -1, 0, 1 and 2")
+	}
+	cfg.CompressionLevel = compressionLevel
 
 	srv := server.NewFiberFileServer(cfg)
 	return srv.ConfigureAndStart()

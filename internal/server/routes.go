@@ -34,7 +34,7 @@ func (s *FiberFileServer) setupRoutingAndMiddleware() {
 	s.fiber.Use(middleware.AddSecurityHeaders(false)) // TODO: HSTS config
 
 	s.fiber.Use(compress.New(compress.Config{
-		Level: compress.LevelBestCompression, // TODO: compression level or disable provided in config
+		Level: compress.Level(s.config.CompressionLevel),
 	}))
 
 	s.fiber.Use(limiter.New(limiter.Config{

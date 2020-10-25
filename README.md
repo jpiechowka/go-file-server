@@ -8,7 +8,7 @@ A simple web server written in Go that can be used to serve files and transfer t
 * Built-in and configurable request rate limiter
 * Automated generation of self-signed TLS certs (TODO)
 * Ability to add custom TLS certs (TODO)
-* Configurable compression (TODO: configuration)
+* Configurable compression
 * Configurable Basic Auth
 
 ## Usage
@@ -41,6 +41,7 @@ Usage:
 Flags:
   -a, --address string      server address (default "0.0.0.0:13337")
   -b, --basic-auth string   enables Basic Auth. Credentials should be provided as username:password
+  -c, --compression int     configure compression level. -1 to disable, 0 for default level, 1 for best speed, 2 for best compression (default 2)
   -d, --dir string          path to directory with files to serve (default "./files")
   -h, --help                help for start
   -r, --rate-limit uint     configure max requests per minute (default 60)

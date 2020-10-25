@@ -7,4 +7,5 @@ type ServerConfig struct {
 	BasicAuthUser      string
 	BasicAuthPassword  string
 	RateLimitPerMinute uint
+	CompressionLevel   int
 }
