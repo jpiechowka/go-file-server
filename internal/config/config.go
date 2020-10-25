@@ -1,11 +1,15 @@
 package config
 
 type ServerConfig struct {
-	Address            string
-	ServeDirectoryPath string
-	EnableBasicAuth    bool
-	BasicAuthUser      string
-	BasicAuthPassword  string
-	RateLimitPerMinute uint
-	CompressionLevel   int
+	Address                      string
+	ServeDirectoryPath           string
+	RateLimitPerMinute           uint
+	EnableBasicAuth              bool
+	BasicAuthUser                string
+	BasicAuthPassword            string
+	CompressionLevel             int
+	EnableTls                    bool
+	CertFilePath                 string
+	KeyFilePath                  string
+	TlsSelfSignedCertificateHost string
 }

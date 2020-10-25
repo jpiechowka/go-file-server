@@ -2,25 +2,34 @@ package cmd
 
 import (
 	"errors"
+	"fmt"
 	"github.com/jpiechowka/go-file-server/internal/config"
 	"github.com/jpiechowka/go-file-server/internal/server"
+	"github.com/jpiechowka/go-file-server/internal/tls"
 	"github.com/spf13/cobra"
 	"strings"
 )
 
 const (
-	defaultServerAddr         = "0.0.0.0:13337"
-	defaultServeDirectoryPath = "./files"
-	defaultRateLimitPerMinute = 60
-	defaultCompressionLevel   = 2
+	defaultServerAddr              = "0.0.0.0:13337"
+	defaultServeDirectoryPath      = "./files"
+	defaultRateLimitPerMinute      = 60
+	defaultCompressionLevel        = 2
+	defaultGenerateSelfSignedCerts = false
+	defaultEnableTls               = false
+	certFilePath                   = "cert.pem"
+	keyFilePath                    = "key.pem"
+	tlsCertificateHost             = "localhost" // TODO: Make configurable
 )
 
 var (
-	serverAddr           string
-	serveDirectoryPath   string
-	basicAuthCredentials string
-	rateLimitPerMinute   uint
-	compressionLevel     int
+	serverAddr              string
+	serveDirectoryPath      string
+	basicAuthCredentials    string
+	rateLimitPerMinute      uint
+	compressionLevel        int
+	generateSelfSignedCerts bool
+	enableTls               bool
 
 	startCommand = &cobra.Command{
 		Use:   "start",
@@ -41,18 +50,22 @@ func init() {
 	startCommand.Flags().StringVarP(&basicAuthCredentials, "basic-auth", "b", "", "enables Basic Auth. Credentials should be provided as username:password")
 	startCommand.Flags().UintVarP(&rateLimitPerMinute, "rate-limit", "r", defaultRateLimitPerMinute, "configure max requests per minute")
 	startCommand.Flags().IntVarP(&compressionLevel, "compression", "c", defaultCompressionLevel, "configure compression level. -1 to disable, 0 for default level, 1 for best speed, 2 for best compression")
+	startCommand.Flags().BoolVarP(&generateSelfSignedCerts, "generate-certs", "g", defaultGenerateSelfSignedCerts, fmt.Sprintf("enable TLS and generate self-signed certs for the server. Outputs to '%s' and '%s' and will overwrite existing files", certFilePath, keyFilePath))
+	startCommand.Flags().BoolVarP(&enableTls, "tls", "t", defaultEnableTls, fmt.Sprintf("enables TLS. Files should be saved as '%s' and '%s'", certFilePath, keyFilePath))
 }
 
 func startCmd() error {
 	cfg := &config.ServerConfig{
-		Address:            serverAddr,
-		ServeDirectoryPath: serveDirectoryPath,
-		RateLimitPerMinute: rateLimitPerMinute,
+		Address:                      serverAddr,
+		ServeDirectoryPath:           serveDirectoryPath,
+		RateLimitPerMinute:           rateLimitPerMinute,
+		CertFilePath:                 certFilePath,
+		KeyFilePath:                  keyFilePath,
+		TlsSelfSignedCertificateHost: tlsCertificateHost,
 	}
 
+	// Basic Auth
 	if basicAuthCredentials != "" {
-		cfg.EnableBasicAuth = true
-
 		credentials := strings.Split(basicAuthCredentials, ":")
 
 		if len(credentials) != 2 {
@@ -63,14 +76,26 @@ func startCmd() error {
 			return errors.New("provided Basic Auth credentials are invalid. Password and username cannot be empty")
 		}
 
+		cfg.EnableBasicAuth = true
 		cfg.BasicAuthUser = credentials[0]
 		cfg.BasicAuthPassword = credentials[1]
 	}
 
+	// Compression
 	if compressionLevel < -1 || compressionLevel > 2 {
 		return errors.New("provided compression level is invalid. Valid values are -1, 0, 1 and 2")
 	}
 	cfg.CompressionLevel = compressionLevel
+
+	// TLS
+	if generateSelfSignedCerts {
+		if err := tls.GenerateSelfSignedCertAndKey(certFilePath, keyFilePath, tlsCertificateHost); err != nil {
+			return err
+		}
+
+		enableTls = true
+	}
+	cfg.EnableTls = enableTls
 
 	srv := server.NewFiberFileServer(cfg)
 	return srv.ConfigureAndStart()

@@ -31,7 +31,7 @@ func (s *FiberFileServer) setupRoutingAndMiddleware() {
 	}))
 
 	s.fiber.Use(middleware.DisableCache())
-	s.fiber.Use(middleware.AddSecurityHeaders(false)) // TODO: HSTS config
+	s.fiber.Use(middleware.AddSecurityHeaders(s.config.EnableTls))
 
 	s.fiber.Use(compress.New(compress.Config{
 		Level: compress.Level(s.config.CompressionLevel),

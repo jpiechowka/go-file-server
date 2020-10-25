@@ -6,8 +6,8 @@ A simple web server written in Go that can be used to serve files and transfer t
 * Automatically add security and cache headers to the responses
 * Built-in request logging
 * Built-in and configurable request rate limiter
-* Automated generation of self-signed TLS certs (TODO)
-* Ability to add custom TLS certs (TODO)
+* Automated generation of self-signed TLS certs
+* Ability to add custom TLS certs
 * Configurable compression
 * Configurable Basic Auth
 
@@ -43,6 +43,8 @@ Flags:
   -b, --basic-auth string   enables Basic Auth. Credentials should be provided as username:password
   -c, --compression int     configure compression level. -1 to disable, 0 for default level, 1 for best speed, 2 for best compression (default 2)
   -d, --dir string          path to directory with files to serve (default "./files")
+  -g, --generate-certs      enable TLS and generate self-signed certs for the server. Outputs to 'cert.pem' and 'key.pem' and will overwrite existing files
   -h, --help                help for start
   -r, --rate-limit uint     configure max requests per minute (default 60)
+  -t, --tls                 enables TLS. Files should be saved as 'cert.pem' and 'key.pem'
 ```
