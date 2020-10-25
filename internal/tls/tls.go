@@ -16,8 +16,8 @@ import (
 )
 
 // GenerateSelfSignedCertAndKey generates a self-signed TLS certificate.
-func GenerateSelfSignedCertAndKey(certFilePath string, keyFilePath string, tlsCertificateHost string) error {
-	if len(tlsCertificateHost) < 0 {
+func GenerateSelfSignedCertAndKey(certFilePath string, keyFilePath string, tlsCertificateHosts string) error {
+	if len(tlsCertificateHosts) < 0 {
 		return errors.New("missing required host values for certificate")
 	}
 
@@ -47,7 +47,7 @@ func GenerateSelfSignedCertAndKey(certFilePath string, keyFilePath string, tlsCe
 		BasicConstraintsValid: true,
 	}
 
-	hosts := strings.Split(tlsCertificateHost, ",")
+	hosts := strings.Split(tlsCertificateHosts, ",")
 	for _, h := range hosts {
 		if ip := net.ParseIP(h); ip != nil {
 			certTemplate.IPAddresses = append(certTemplate.IPAddresses, ip)

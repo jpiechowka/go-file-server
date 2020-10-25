@@ -17,9 +17,10 @@ const (
 	defaultCompressionLevel        = 2
 	defaultGenerateSelfSignedCerts = false
 	defaultEnableTls               = false
-	certFilePath                   = "cert.pem"
-	keyFilePath                    = "key.pem"
-	tlsCertificateHost             = "localhost" // TODO: Make configurable
+	defaultTlsCertificateHosts     = "localhost"
+
+	certFilePath = "cert.pem"
+	keyFilePath  = "key.pem"
 )
 
 var (
@@ -30,6 +31,7 @@ var (
 	compressionLevel        int
 	generateSelfSignedCerts bool
 	enableTls               bool
+	tlsCertificateHosts     string
 
 	startCommand = &cobra.Command{
 		Use:   "start",
@@ -50,18 +52,18 @@ func init() {
 	startCommand.Flags().StringVarP(&basicAuthCredentials, "basic-auth", "b", "", "enables Basic Auth. Credentials should be provided as username:password")
 	startCommand.Flags().UintVarP(&rateLimitPerMinute, "rate-limit", "r", defaultRateLimitPerMinute, "configure max requests per minute")
 	startCommand.Flags().IntVarP(&compressionLevel, "compression", "c", defaultCompressionLevel, "configure compression level. -1 to disable, 0 for default level, 1 for best speed, 2 for best compression")
-	startCommand.Flags().BoolVarP(&generateSelfSignedCerts, "generate-certs", "g", defaultGenerateSelfSignedCerts, fmt.Sprintf("enable TLS and generate self-signed certs for the server. Outputs to '%s' and '%s' and will overwrite existing files", certFilePath, keyFilePath))
+	startCommand.Flags().BoolVarP(&generateSelfSignedCerts, "generate-cert", "g", defaultGenerateSelfSignedCerts, fmt.Sprintf("enable TLS and generate self-signed certs for the server. Outputs to '%s' and '%s' and will overwrite existing files", certFilePath, keyFilePath))
 	startCommand.Flags().BoolVarP(&enableTls, "tls", "t", defaultEnableTls, fmt.Sprintf("enables TLS. Files should be saved as '%s' and '%s'", certFilePath, keyFilePath))
+	startCommand.Flags().StringVar(&tlsCertificateHosts, "cert-hosts", defaultTlsCertificateHosts, "comma separated list of DNS names (Subject Alt Names extension). Used only when generating self-signed certs. Example values: example1.com,example2.com")
 }
 
 func startCmd() error {
 	cfg := &config.ServerConfig{
-		Address:                      serverAddr,
-		ServeDirectoryPath:           serveDirectoryPath,
-		RateLimitPerMinute:           rateLimitPerMinute,
-		CertFilePath:                 certFilePath,
-		KeyFilePath:                  keyFilePath,
-		TlsSelfSignedCertificateHost: tlsCertificateHost,
+		Address:            serverAddr,
+		ServeDirectoryPath: serveDirectoryPath,
+		RateLimitPerMinute: rateLimitPerMinute,
+		CertFilePath:       certFilePath,
+		KeyFilePath:        keyFilePath,
 	}
 
 	// Basic Auth
@@ -89,7 +91,7 @@ func startCmd() error {
 
 	// TLS
 	if generateSelfSignedCerts {
-		if err := tls.GenerateSelfSignedCertAndKey(certFilePath, keyFilePath, tlsCertificateHost); err != nil {
+		if err := tls.GenerateSelfSignedCertAndKey(certFilePath, keyFilePath, tlsCertificateHosts); err != nil {
 			return err
 		}
 
