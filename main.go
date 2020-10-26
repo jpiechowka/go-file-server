@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/jpiechowka/go-file-server/internal/cmd"
 	"os"
+
+	"github.com/jpiechowka/go-file-server/internal/cmd"
 )
 
 func main() {

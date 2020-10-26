@@ -2,9 +2,11 @@ package server
 
 import (
 	"crypto/tls"
-	"github.com/gofiber/fiber/v2"
-	"github.com/jpiechowka/go-file-server/internal/config"
 	"time"
+
+	"github.com/gofiber/fiber/v2"
+
+	"github.com/jpiechowka/go-file-server/internal/config"
 )
 
 type FiberFileServer struct {

@@ -1,15 +1,17 @@
 package server
 
 import (
+	"net/http"
+	"time"
+
 	"github.com/gofiber/fiber/v2/middleware/basicauth"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+
 	"github.com/jpiechowka/go-file-server/internal/server/middleware"
-	"net/http"
-	"time"
 )
 
 func (s *FiberFileServer) setupRoutingAndMiddleware() {

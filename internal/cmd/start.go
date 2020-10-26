@@ -3,11 +3,13 @@ package cmd
 import (
 	"errors"
 	"fmt"
+	"strings"
+
+	"github.com/spf13/cobra"
+
 	"github.com/jpiechowka/go-file-server/internal/config"
 	"github.com/jpiechowka/go-file-server/internal/server"
 	"github.com/jpiechowka/go-file-server/internal/tls"
-	"github.com/spf13/cobra"
-	"strings"
 )
 
 const (
