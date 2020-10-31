@@ -46,6 +46,6 @@ func (s *FiberFileServer) setupRoutingAndMiddleware() {
 
 	s.fiber.Use(filesystem.New(filesystem.Config{
 		Root:   http.Dir(s.config.ServeDirectoryPath),
-		Browse: true,
+		Browse: !s.config.DisableDirectoryListing,
 	}))
 }

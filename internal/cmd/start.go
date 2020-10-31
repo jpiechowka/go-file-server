@@ -20,6 +20,7 @@ const (
 	defaultGenerateSelfSignedCerts = false
 	defaultEnableTls               = false
 	defaultTlsCertificateHosts     = "localhost"
+	defaultDisableDirListing       = false
 
 	certFilePath = "cert.pem"
 	keyFilePath  = "key.pem"
@@ -34,6 +35,7 @@ var (
 	generateSelfSignedCerts bool
 	enableTls               bool
 	tlsCertificateHosts     string
+	disableDirListing       bool
 
 	startCommand = &cobra.Command{
 		Use:   "start",
@@ -57,15 +59,17 @@ func init() {
 	startCommand.Flags().BoolVarP(&generateSelfSignedCerts, "generate-cert", "g", defaultGenerateSelfSignedCerts, fmt.Sprintf("enable TLS and generate self-signed certs for the server. Outputs to '%s' and '%s' and will overwrite existing files", certFilePath, keyFilePath))
 	startCommand.Flags().BoolVarP(&enableTls, "tls", "t", defaultEnableTls, fmt.Sprintf("enables TLS. Files should be saved as '%s' and '%s'", certFilePath, keyFilePath))
 	startCommand.Flags().StringVar(&tlsCertificateHosts, "cert-hosts", defaultTlsCertificateHosts, "comma separated list of DNS names (Subject Alt Names extension). Used only when generating self-signed certs. Example values: example1.com,example2.com")
+	startCommand.Flags().BoolVarP(&disableDirListing, "disable-dir-listing", "l", defaultDisableDirListing, "disables directory listing which is turned on by default")
 }
 
 func startCmd() error {
 	cfg := &config.ServerConfig{
-		Address:            serverAddr,
-		ServeDirectoryPath: serveDirectoryPath,
-		RateLimitPerMinute: rateLimitPerMinute,
-		CertFilePath:       certFilePath,
-		KeyFilePath:        keyFilePath,
+		Address:                 serverAddr,
+		ServeDirectoryPath:      serveDirectoryPath,
+		RateLimitPerMinute:      rateLimitPerMinute,
+		DisableDirectoryListing: disableDirListing,
+		CertFilePath:            certFilePath,
+		KeyFilePath:             keyFilePath,
 	}
 
 	// Basic Auth

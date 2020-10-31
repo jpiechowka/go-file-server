@@ -4,6 +4,7 @@ A simple web server written in Go that can be used to serve files and transfer t
 ## Features
 * Built using https://github.com/gofiber/fiber
 * Ability to configure serve directory
+* Directory listing / browsing is enabled by default. It can be switched off by providing a correct cli flag.
 * Automatically add security and cache headers to the responses
 * Built-in request logging
 * Built-in and configurable request rate limiter
@@ -40,13 +41,14 @@ Usage:
   go-file-server start [flags]
 
 Flags:
-  -a, --address string      server address (default "0.0.0.0:13337")
-  -b, --basic-auth string   enables Basic Auth. Credentials should be provided as username:password
-      --cert-hosts string   comma separated list of DNS names (Subject Alt Names extension). Used only when generating self-signed certs. Example values: example1.com,example2.com (default "localhost")
-  -c, --compression int     configure compression level. -1 to disable, 0 for default level, 1 for best speed, 2 for best compression (default 2)
-  -d, --dir string          path to directory with files to serve (default "./files")
-  -g, --generate-cert       enable TLS and generate self-signed certs for the server. Outputs to 'cert.pem' and 'key.pem' and will overwrite existing files
-  -h, --help                help for start
-  -r, --rate-limit uint     configure max requests per minute (default 60)
-  -t, --tls                 enables TLS. Files should be saved as 'cert.pem' and 'key.pem'
+  -a, --address string        server address (default "0.0.0.0:13337")
+  -b, --basic-auth string     enables Basic Auth. Credentials should be provided as username:password
+      --cert-hosts string     comma separated list of DNS names (Subject Alt Names extension). Used only when generating self-signed certs. Example values: example1.com,example2.com (default "localhost")
+  -c, --compression int       configure compression level. -1 to disable, 0 for default level, 1 for best speed, 2 for best compression (default 2)
+  -d, --dir string            path to directory with files to serve (default "./files")
+  -l, --disable-dir-listing   disables directory listing which is turned on by default
+  -g, --generate-cert         enable TLS and generate self-signed certs for the server. Outputs to 'cert.pem' and 'key.pem' and will overwrite existing files
+  -h, --help                  help for start
+  -r, --rate-limit uint       configure max requests per minute (default 60)
+  -t, --tls                   enables TLS. Files should be saved as 'cert.pem' and 'key.pem'
 ```
