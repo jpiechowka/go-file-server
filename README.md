@@ -4,7 +4,7 @@ A simple web server written in Go that can be used to serve files and transfer t
 ## Features
 * Built using https://github.com/gofiber/fiber
 * Ability to configure serve directory
-* Directory listing / browsing is enabled by default. It can be switched off by providing a correct cli flag.
+* Directory listing / browsing is enabled by default. It can be switched off by providing a correct cli flag
 * Automatically add security and cache headers to the responses
 * Built-in request logging
 * Built-in and configurable request rate limiter
