@@ -13,6 +13,9 @@ A simple web server written in Go that can be used to serve files and transfer t
 * Configurable compression and ability to disable it
 * Configurable Basic Auth
 
+## Releases
+Releases for every major operating system are available from the releases page: https://github.com/jpiechowka/go-file-server/releases
+
 ## Usage
 Basic usage with default options: ```go-file-server start```. It will start server without TLS and serve files from ```./files``` directory.
 
