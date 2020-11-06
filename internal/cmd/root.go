@@ -6,7 +6,7 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:     "go-file-server",
-	Version: "1.1.1",
+	Version: "1.1.3",
 	Short:   "A file server built in Go using Fiber",
 }
 
