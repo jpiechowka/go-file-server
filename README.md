@@ -1,7 +1,15 @@
 # Go File Server
 A simple web server written in Go that can be used to serve files and transfer them (I use it to transfer files to my devices on LAN).
 
+## Status
+![Release](https://github.com/jpiechowka/go-file-server/workflows/Release/badge.svg)
+![Build and test master](https://github.com/jpiechowka/go-file-server/workflows/Build%20and%20test%20master/badge.svg)
+![Analzye code](https://github.com/jpiechowka/go-file-server/workflows/Analzye%20code/badge.svg)
+
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/jpiechowka/go-file-server)
+[![GitHub license](https://img.shields.io/github/license/jpiechowka/go-file-server)](https://github.com/jpiechowka/go-file-server/blob/main/LICENSE)
 [![Go Report Card](https://goreportcard.com/badge/github.com/jpiechowka/go-file-server)](https://goreportcard.com/report/github.com/jpiechowka/go-file-server)
+[![GitHub issues](https://img.shields.io/github/issues/jpiechowka/go-file-server)](https://github.com/jpiechowka/go-file-server/issues)
 
 ## Features
 * Built using https://github.com/gofiber/fiber
