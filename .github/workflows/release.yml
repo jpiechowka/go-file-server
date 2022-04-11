@@ -77,7 +77,7 @@ jobs:
         shell: bash
 
       - name: Load release URL file from release job
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: release_url
 
